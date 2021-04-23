@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GJH_Inn</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+    <link rel="stylesheet" href="../static/css/animate.min.css"/>
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+    <script>
+        L2Dwidget.init({
+            "model": {
+                "jsonPath": "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json ",
+                "scale": 1,
+                "hHeadPos": 0.5,
+                "vHeadPos": 0.618
+            },
+            "display": {"position": "right", "width": 120, "height": 250, "hOffset": 0, "vOffset": 0},
+            "mobile": {"show": true, "scale": 0.5},
+            "react": {"opacityDefault": 1, "opacityOnHover": 0.2}
+        });
+
+    </script>
+    <!--
+        其他可选的模型：
+            小帅哥： https://unpkg.com/live2d-widget-model-chitose@1.0.5/assets/chitose.model.json
+            萌娘：https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json
+            小可爱（女）：https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json
+            小可爱（男）：https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json
+            初音：https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json
+    -->
+</head>
+<body>
+
+<!--导航-->
+
+<nav th:replace="_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui blue header item">Blog</h2>
+            <a href="#" class="active m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>分类</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="info icon"></i>关于我</a>
+            <div class="right m-item item m-mobile-hide">
+                <div class="ui icon inverted transparent input m-margin-tb-tiny">
+                    <input type="text" placeholder="Search....">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<!--中间内容-->
+<div class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <div class="ui stackable grid">
+            <div class="eleven wide column animated bounceInLeft">
+                <div class="ui top attached segment">
+                    <div class="ui middle aligned two column grid">
+                        <div class="column">
+                            <h3 class="ui blue header">博文列表</h3>
+                        </div>
+                        <div class="right aligned column">
+                            共 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${page.totalElements}"> 14 </h2> 个
+                        </div>
+                    </div>
+                </div>
+
+                <!--博客列表-->
+                <div class="ui attached  segment">
+
+                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear"
+                         th:each="blog : ${page.content}" th:if="${blog.published}">
+                        <div class="ui middle aligned mobile reversed stackable grid">
+                            <div class="eleven wide column">
+                                <h3 class="ui header"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank"
+                                                         class=" m-black"
+                                                         th:text="${blog.title}">webSocket</a></h3>
+                                <p class="m-text" th:text="|${blog.description}........|">WebSocket
+                                    即时通讯技术，使客户端和服务器之间的数据交换变得更加简单，并且允许服务端主动向客户端推送数据。使用WebSocket实现一个简单的实时聊天案例......</p>
+                                <div class="ui grid">
+                                    <div class="eleven wide column">
+                                        <div class="ui mini horizontal link list">
+                                            <div class="item">
+                                                <img src="https://unsplash.it/100/100?image=965"
+                                                     th:src="@{${blog.user.avatar}}" alt=""
+                                                     class="ui avatar image">
+                                                <div class="content"><a href="#" th:text="${blog.user.nickname}"
+                                                                        class="m-theme-font-color header">李仁密</a>
+                                                </div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="calendar icon"></i><span
+                                                    th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2017-10-01</span>
+                                            </div>
+                                            <div class="item">
+                                                <i class="eye icon"></i><span th:text="${blog.views}">2342</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="right aligned five wide column">
+                                        <a href="#" target="_blank"
+                                           class="ui m-theme-font-color basic label m-padded-tiny m-text-thin"
+                                           th:text="${blog.type.name}">认知升级</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="five wide column">
+                                <a href="#" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}">
+                                    <img src="https://unsplash.it/800/450?image=905" alt="" class="ui rounded image"
+                                         th:src="@{${blog.firstPicture}}">
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--列表底部-->
+                <div class="ui bottom attached segment">
+                    <div class="ui middle aligned two column grid">
+                        <div class="column" th:if="${page.totalPages}>1">
+
+                            <a href="#" th:href="@{/(page=${page.number}-1)}" th:unless="${page.first}"
+                               class="ui blue basic button">上一页</a>
+                        </div>
+                        <div class="right aligned column">
+                            <a href="#" th:href="@{/(page=${page.number}+1)}" th:unless="${page.last}"
+                               class="ui blue  basic button">下一页</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--右边的博客列表-->
+            <div class="five wide column animated bounceInRight">
+
+                <!--分类-->
+                <div class="ui segments">
+                    <div class="ui secondary segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="idea icon blue"></i>分类
+                            </div>
+                            <div class="right aligned column">
+                                <a href="#" target="_blank" th:href="@{types/-1}">more <i class="angle double blue right icon"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui blue segment">
+                        <div class="ui fluid vertical menu">
+                            <a href="#" th:href="@{/types/{id}(id=${type.id})}" target="_blank" class="item" th:each="type : ${types}">
+                                <span th:text="${type.name}">学习日志</span>
+                                <div class="ui blue basic left pointing label" th:text="${#arrays.length(type.blogs)}">
+                                    13
+                                </div>
+                            </a>
+                            <!--/*-->
+                            <a href="#" class="item">
+                                思考与感悟
+                                <div class="ui blue basic left pointing label">13</div>
+                            </a>
+                            <a href="#" class="item">
+                                学习日志
+                                <div class="ui blue basic left pointing label">13</div>
+                            </a>
+                            <a href="#" class="item">
+                                学习日志
+                                <div class="ui blue basic left pointing label">13</div>
+                            </a>
+                            <a href="#" class="item">
+                                学习日志
+                                <div class="ui blue basic left pointing label">13</div>
+                            </a>
+                            <a href="#" class="item">
+                                学习日志
+                                <div class="ui blue basic left pointing label">13</div>
+                            </a>
+                            <!--*/-->
+                        </div>
+                    </div>
+                </div>
+
+                <!--标签-->
+                <div class="ui segments m-margin-top-large">
+                    <div class="ui secondary segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="tags icon blue"></i>标签
+                            </div>
+                            <div class="right aligned column">
+                                <a href="#" target="_blank" th:href="@{tags/-1}">more <i class="angle double blue right icon"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui blue segment">
+                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" target="_blank" th:each="tag : ${tags}"
+                           class="ui basic left pointing blue label m-margin-tb-tiny">
+                            <span th:text="${tag.name}">方法论</span>
+                            <div th:text="${#arrays.length(tag.blogs)}" class="detail">23</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!--最新推荐-->
+                <div class="ui segments m-margin-top-large">
+                    <div class="ui secondary segment ">
+                        <i class="bookmark icon blue"></i>最新推荐
+                    </div>
+                    <div class="ui segment" th:each="blog : ${recommendBlogs}">
+                        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black m-text-thin"
+                           th:text="${blog.title}">用户故事（User Story）</a>
+                    </div>
+                </div>
+
+                <!--二维码-->
+                <h4 class="ui horizontal  divider header m-margin-top-large">扫码关注我</h4>
+                <div class="ui centered card" style="width: 11em">
+                    <img src="../static/images/my_vx.jpg" th:src="@{/images/my_vx.jpg}" alt="" class="ui rounded image">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../static/images/my_vx.jpg" class="ui rounded image"
+                             alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+                    <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+                    <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">Email：gjh88137@163.com</a>
+                    <a href="#" class="item m-text-thin">QQ：841378866</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - 2021 Lirenmi Designed by Lirenmi</p>
+    </div>
+
+</footer>
+
+
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<!--/*/</th:block>/*/-->
+<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+
+<script>
+    //小模型看门
+    L2Dwidget.init({
+        "model": {
+            "jsonPath": "https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json",
+            "scale": 1,
+            "hHeadPos": 0.5,
+            "vHeadPos": 0.618
+        },
+        "display": {"position": "left", "width": 120, "height": 150, "hOffset": 0, "vOffset": 0},
+        "mobile": {"show": true, "scale": 0.5},
+        "react": {"opacityDefault": 1, "opacityOnHover": 0.2}
+    });
+
+    // 其他可选的模型：
+    // 	小帅哥： https://unpkg.com/live2d-widget-model-chitose@1.0.5/assets/chitose.model.json
+    // 萌娘：https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json
+    // 小可爱（女）：https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json
+    // 小可爱（男）：https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json
+    // 初音：https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json
+
+</script>
+</body>
+</html>

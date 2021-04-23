@@ -1,0 +1,16 @@
+spring:
+  http:
+    encoding: UTF-8
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+  profiles:
+    active: dev
+spring.thymeleaf.content-type: text/html
+spring.thymeleaf.cache: false
+spring.thymeleaf.mode: LEGACYHTML5
+comment.avatar: /images/avatar.png
+message.avatar: /images/avatar.png
+server.port: 80
+
+

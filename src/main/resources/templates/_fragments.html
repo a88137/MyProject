@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head  th:fragment="head(title)">
+    <link rel="shortcut icon" href="../static/images/1.ico" th:href="@{../images/1.ico}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">前台模板</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{../css/typo.css}">
+    <link rel="stylesheet" href="../static/css/animate.min.css" th:href="@{../css/animate.min.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{../lib/prism/prism.css}">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{../lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{../css/me.css}">
+
+</head>
+<body>
+<!--导航-->
+<nav th:fragment="menu(n)" class="ui inverted attached  m-padded-tb-mini m-shadow-small animated fadeInDown">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui blue header item" th:text="#{nav.header}">GJH_Home</h2>
+            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><i class=" home icon"></i><span th:text="#{nav.index}">首页</span></a>
+            <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="idea icon"></i><span th:text="#{nav.type}">分类</span></a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tags icon"></i><span th:text="#{nav.tag}">标签</span></a>
+            <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="clone icon"></i><span th:text="#{nav.archives}">归档</span></a>
+            <a href="#" th:href="@{/music}"  class="m-item item m-mobile-hide"  target="_blank"><i class="music icon"></i>&nbsp;<span th:text="#{nav.music}">音乐盒</span></a>
+            <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5} ? 'active'"><i class="info icon"></i><span th:text="#{nav.about}">关于我</span></a>
+            <a href="#" th:href="@{/message}" class="m-item item m-mobile-hide" th:classappend="${n==6} ? 'active'"><i class="envelope icon"></i><span th:text="#{nav.message}">留言</span></a>
+            <div class="right m-item item m-mobile-hide">
+                <form name="search" action="#" method="post" th:action="@{/search}" target="_blank">
+                    <div class="ui icon inverted transparent input m-margin-tb-tiny">
+                        <input type="text" name="query" placeholder="请输入...." th:value="${query}">
+                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<!--底部footer-->
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-massive animated fadeInUp">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="four wide column">
+                <div class="ui inverted link list">
+                    <h4>微信</h4>
+                    <div class="item">
+                        <img src="../static/images/my_vx.jpg" th:src="@{/images/my_vx.jpg}" class="ui rounded image"
+                             alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <div class="ui inverted link list">
+                    <h4>微博</h4>
+                    <div class="item">
+                        <img src="../static/images/my_wb.jpg" th:src="@{/images/my_wb.jpg}" class="ui rounded image"
+                             alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="five wide column" style=" padding-left: 1em !important;">
+                <h4 class="ui inverted header m-text-thin m-text-spaced">联系我</h4>
+                <div class="ui inverted link list">
+                    <i class="envelope icon"></i> <a href="#" class="item m-text-thin" style="line-height: 25px; !important;" th:text="#{index.email}"></a><br>
+                    <i class="qq icon"></i><a href="#" class="item m-text-thin" style="line-height: 25px; !important;" th:text="#{index.qq}">QQ：841378866</a>
+
+                </div>
+            </div>
+            <div class="three wide column" style=" padding-left: 1em !important;">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">博客信息</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text " style="line-height: 28px; !important;">  客栈文章总数：
+                        <span class="m-theme-font-color" th:text="${blogCount}">100</span> 篇
+                    </a>
+
+                    <a href="#" class="item m-text" style="line-height: 28px; !important;">   文章访问次数：
+                        <span class="m-theme-font-color" th:text="${sumviews}">100</span> 次
+                    </a>
+                    <a href="#" class="item m-text"  style="line-height: 28px; !important;">  文章评论次数：
+                        <span class="m-theme-font-color" th:text="${commentCount}">100</span> 次
+                    </a>
+                    <a href="#" class="item m-text"  style="line-height: 28px; !important;">  客栈留言次数：
+                        <span class="m-theme-font-color" th:text="${summessage}">100</span> 次
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="ui inverted section divider "></div>
+        <div class="ui inverted m-text-thin m-text-spaced m-theme-font-color">我的客栈已营业：<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+        <br>
+        <a rel="nofollow" style="color: #ff4500" href="http://www.beian.miit.gov.cn" target="_blank">粤ICP备200606339号-1</a>
+    </div>
+
+</footer>
+<!-- 天气预报 -->
+<script type="text/javascript">
+    WIDGET = {FID: 'pm9LQu4Kng'}
+</script>
+<script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+<th:block th:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <script>
+        //二级菜单
+        $('.menu.toggle').click(function () {
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+
+
+    </script>
+    <!--    蜘蛛网触摸-->
+    <script>
+        !function () {
+            function n(n, e, t) {
+                return n.getAttribute(e) || t
+            }
+
+            function e(n) {
+                return document.getElementsByTagName(n)
+            }
+
+            function t() {
+                var t = e("script"),
+                    o = t.length,
+                    i = t[o - 1];
+                return {
+                    l: o,
+                    z: n(i, "zIndex", -1),
+                    o: n(i, "opacity", 9),
+                    c: n(i, "color", "255,255,255"),
+                    n: n(i, "count", 99)
+                }
+            }
+
+            function o() {
+                a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+                    c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+            }
+
+            function i() {
+                r.clearRect(0, 0, a, c);
+                var n, e, t, o, m, l;
+                s.forEach(function (i, x) {
+                    for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(
+                        i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+                    null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y,
+                        l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m),
+                        t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) +
+                        ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+                }),
+                    x(i)
+            }
+
+            var a, c, u, m = document.createElement("canvas"),
+                d = t(),
+                l = "c_n" + d.l,
+                r = m.getContext("2d"),
+                x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+                    function (n) {
+                        window.setTimeout(n, 1e3 / 45)
+                    },
+                w = Math.random,
+                y = {
+                    x: null,
+                    y: null,
+                    max: 2e4
+                };
+            m.id = l, m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o, e("body")[0].appendChild(
+                m), o(), window.οnresize = o,
+                window.onmousemove = function (n) {
+                    n = n || window.event, y.x = n.clientX, y.y = n.clientY
+                },
+                window.onmouseout = function () {
+                    y.x = null, y.y = null
+                };
+            for (var s = [], f = 0; d.n > f; f++) {
+                var h = w() * a,
+                    g = w() * c,
+                    v = 2 * w() - 1,
+                    p = 2 * w() - 1;
+                s.push({
+                    x: h,
+                    y: g,
+                    xa: v,
+                    ya: p,
+                    max: 6e3
+                })
+            }
+            u = s.concat([y]),
+                setTimeout(function () {
+                    i()
+                }, 100)
+        }();
+    </script>
+    <!--网站运行时间 -->
+    <script language="javascript">
+
+        var now = new Date();
+
+        function createtime() {
+
+            var grt = new Date("06/23/2020 00:00:00");/*---这里是网站的启用时间--*/
+
+            now.setTime(now.getTime() + 250);
+
+            days = (now - grt) / 1000 / 60 / 60 / 24;
+
+            dnum = Math.floor(days);
+
+            hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+
+            hnum = Math.floor(hours);
+
+            if (String(hnum).length == 1) {
+                hnum = "0" + hnum;
+            }
+
+            minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+
+            mnum = Math.floor(minutes);
+
+            if (String(mnum).length == 1) {
+                mnum = "0" + mnum;
+            }
+
+            seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+
+            snum = Math.round(seconds);
+
+            if (String(snum).length == 1) {
+                snum = "0" + snum;
+            }
+
+            document.getElementById("timeDate").innerHTML = dnum + "天";
+
+            document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒";
+
+        }
+
+        setInterval("createtime()", 250);
+    </script>
+</th:block>
+</body>
+</html>
